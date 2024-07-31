@@ -1,23 +1,23 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
-// import router from "./app/routes";
-// import globalErrorHandler from "./app/middleware/globalErrorHandler";
-// import notFound from "./app/middleware/notFound";
+import router from "./app/routes";
+import globalErrorHandler from "./app/middleware/globalErrorHandler";
 
 const app = express();
+
+app.use(cors());
 
 //parser
 app.use(express.json());
 
-app.use(cors());
 //application routes
-// app.use("/api", router);
+app.use("/api/v1", router);
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Welcome to Campers Shop");
+  res.send("Welcome to Campers Shop....");
 });
 
-// app.use(globalErrorHandler);
+app.use(globalErrorHandler);
 // app.use(notFound);
 
 export default app;
