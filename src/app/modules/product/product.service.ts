@@ -17,6 +17,7 @@ const getAllProductFromDb = async (
 ) => {
   let query: any = {};
 
+  // Build query conditions
   if (searchQuery) {
     const searchRegex = new RegExp(searchQuery, "i");
     query.$or = [{ name: searchRegex }, { description: searchRegex }];
@@ -30,6 +31,7 @@ const getAllProductFromDb = async (
     query.price = { $lte: price };
   }
 
+  // Determine sorting criteria
   let sortCriteria: any = {};
   if (sortDirection === 1) {
     sortCriteria = { price: 1 };
@@ -37,7 +39,9 @@ const getAllProductFromDb = async (
     sortCriteria = { price: -1 };
   }
 
+  // Query the database and sort the results
   const products = await Product.find(query).sort(sortCriteria);
+
   return products;
 };
 // get a single product

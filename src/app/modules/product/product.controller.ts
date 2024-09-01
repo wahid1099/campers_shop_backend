@@ -15,18 +15,33 @@ const createProduct = catchAsync(async (req, res) => {
 });
 
 const getAllProduct = catchAsync(async (req, res) => {
-  const { search, sort, category, price } = req.query;
+  const search = req.query.search as string | undefined;
+  const sort = req.query.sort as string | undefined;
+  const category = req.query.category as string | undefined;
+  const price = req.query.price as string | undefined;
+
   const result = await ProductService.getAllProductFromDb(
-    search as string,
-    parseInt(sort as string),
-    category as string,
-    parseInt(price as string)
+    search || "",
+    parseInt(sort || "0", 10),
+    category || "",
+    parseInt(price || "0", 10)
   );
 
+  if (result.length === 0) {
+    // If no products are found, send a 404 response with a custom message
+    return sendResponse(res, {
+      statusCode: httpStatus.NOT_FOUND,
+      success: false,
+      message: "No products found",
+      data: [],
+    });
+  }
+
+  // If products are found, return them
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Product retrived successfully !!",
+    message: "Products retrieved successfully!",
     data: result,
   });
 });
