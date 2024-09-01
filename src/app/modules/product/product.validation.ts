@@ -17,7 +17,7 @@ const createProductValidationSchema = z.object({
     .number()
     .min(0)
     .max(5, { message: "Rating must be between 0 to 5" }),
-  images: z.string().url({ message: "Each image must have a vakid URl" }),
+  image: z.string().url({ message: "Each image must have a vakid URl" }),
 });
 
 const updateValidationSchema = z.object({
@@ -46,9 +46,9 @@ const updateValidationSchema = z.object({
     .min(0)
     .max(5, { message: "Rating must be between 0 to 5" })
     .optional(),
-  images: z
+  image: z
     .string()
-    .url({ message: "Each image must have a vakid URl" })
+    .url({ message: "Each image must have a valid URl" })
     .optional(),
 });
 
