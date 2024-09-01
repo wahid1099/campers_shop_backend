@@ -4,7 +4,7 @@ type TCartItems = {
   price: number;
   category: string;
   stock: number;
-  images: string;
+  image: string;
   quantity: number;
 };
 

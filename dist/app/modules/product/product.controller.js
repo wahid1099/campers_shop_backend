@@ -27,12 +27,25 @@ const createProduct = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
     });
 }));
 const getAllProduct = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { search, sort, category, price } = req.query;
-    const result = yield product_service_1.ProductService.getAllProductFromDb(search, parseInt(sort), category, parseInt(price));
+    const search = req.query.search;
+    const sort = req.query.sort;
+    const category = req.query.category;
+    const price = req.query.price;
+    const result = yield product_service_1.ProductService.getAllProductFromDb(search || "", parseInt(sort || "0", 10), category || "", parseInt(price || "0", 10));
+    if (result.length === 0) {
+        // If no products are found, send a 404 response with a custom message
+        return (0, sendResponse_1.default)(res, {
+            statusCode: http_status_1.default.NOT_FOUND,
+            success: false,
+            message: "No products found",
+            data: [],
+        });
+    }
+    // If products are found, return them
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: "Product retrived successfully !!",
+        message: "Products retrieved successfully!",
         data: result,
     });
 }));

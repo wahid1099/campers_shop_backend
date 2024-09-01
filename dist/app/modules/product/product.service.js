@@ -24,6 +24,7 @@ const crateProudctIntoDb = (payload) => __awaiter(void 0, void 0, void 0, functi
 // get all  products
 const getAllProductFromDb = (searchQuery, sortDirection, category, price) => __awaiter(void 0, void 0, void 0, function* () {
     let query = {};
+    // Build query conditions
     if (searchQuery) {
         const searchRegex = new RegExp(searchQuery, "i");
         query.$or = [{ name: searchRegex }, { description: searchRegex }];
@@ -34,6 +35,7 @@ const getAllProductFromDb = (searchQuery, sortDirection, category, price) => __a
     if (price > 0) {
         query.price = { $lte: price };
     }
+    // Determine sorting criteria
     let sortCriteria = {};
     if (sortDirection === 1) {
         sortCriteria = { price: 1 };
@@ -41,6 +43,7 @@ const getAllProductFromDb = (searchQuery, sortDirection, category, price) => __a
     else if (sortDirection === -1) {
         sortCriteria = { price: -1 };
     }
+    // Query the database and sort the results
     const products = yield product_model_1.Product.find(query).sort(sortCriteria);
     return products;
 });
